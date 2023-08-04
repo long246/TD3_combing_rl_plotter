@@ -230,6 +230,7 @@ def plot_results(
 	title=None,
 	xlabel=None,
 	ylabel=None,
+	labelfontsize=20,
 	xkey='l',
 	ykey=['r'],
 	yduel=False,
@@ -240,12 +241,16 @@ def plot_results(
 	average_group=False,
 	shaded_std=True,
 	shaded_err=False,
+	no_legend=False,
+	legend_fontsize=20,
 	legend_outside=False,
 	legend_loc=0,
 	legend_group_num=True,
 	legend_borderpad=1.0,
 	legend_labelspacing=1.0,
-	filename="monitor.csv"
+	filename="monitor.csv",
+	show_hlines = False,
+	show_hlines_y = 0.0
 ):
 	default_samples = 512
 	if average_group:
@@ -364,19 +369,34 @@ def plot_results(
 
 	# add legend
 	# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
-	if any(groups_results.keys()):
-		if legend_group_num:
-			plt.legend(
+	if not no_legend:
+		if any(groups_results.keys()):
+			if legend_group_num:
+				plt.legend(
 					[groups_results[key]['legend'] for key in groups_results.keys()],
-					['%s (%i)'%(key.replace('without', 'w/o').replace('_', '-'), groups_results[key]['num']) for key in groups_results.keys()] if average_group else groups_results.keys(),
-					loc=9 if legend_outside else legend_loc, bbox_to_anchor = (0.5,-0.1) if legend_outside else (1,1) if legend_outside else None, borderpad=legend_borderpad, labelspacing=legend_labelspacing, ncol=len(groups_results.keys()) if legend_outside else 1)
-		else:
-			plt.legend(
+					['%s (%i)' % (key.replace('without', 'w/o').replace('_', '-'), groups_results[key]['num']) for key
+					 in groups_results.keys()] if average_group else groups_results.keys(),
+					loc=9 if legend_outside else legend_loc,
+					bbox_to_anchor=(0.5, -0.1) if legend_outside else (1, 1) if legend_outside else None,
+					borderpad=legend_borderpad, labelspacing=legend_labelspacing,
+					ncol=len(groups_results.keys()) if legend_outside else 1, fontsize=legend_fontsize)
+			else:
+				plt.legend(
 					[groups_results[key]['legend'] for key in groups_results.keys()],
-					['%s'%(key.replace('without', 'w/o').replace('_', '-')) for key in groups_results.keys()] if average_group else groups_results.keys(),
-					loc=9 if legend_outside else legend_loc, bbox_to_anchor = (0.5,-0.1) if legend_outside else (1,1) if legend_outside else None, borderpad=legend_borderpad, labelspacing=legend_labelspacing, ncol=len(groups_results.keys()) if legend_outside else 1)
+					['%s' % (key.replace('without', 'w/o').replace('_', '-')) for key in
+					 groups_results.keys()] if average_group else groups_results.keys(),
+					loc=9 if legend_outside else legend_loc,
+					bbox_to_anchor=(0.5, -0.1) if legend_outside else (1, 1) if legend_outside else None,
+					borderpad=legend_borderpad, labelspacing=legend_labelspacing,
+					ncol=len(groups_results.keys()) if legend_outside else 1, fontsize=legend_fontsize)
+	if show_hlines:
+		plt.hlines(y=show_hlines_y, xmin=0, xmax=1000000, color='red', linestyle='-.', linewidth=2.0)
+		# plt.axhline(y=0.6, xmin=0, xmax=1, color='black', linewidth=4.0, label='measuring range')
+		plt.text(x=900000, y=show_hlines_y + show_hlines_y*0.2, s='Threshold', verticalalignment='center', color='red', fontsize=12)
 	# add title
 	plt.title(title)
+	plt.xlabel(xlabel,fontsize=labelfontsize)
+	plt.ylabel(ylabel,fontsize=labelfontsize)
 	# add xlabels
 	if xlabel is not None: plt.xlabel(xlabel)
 
@@ -414,7 +434,9 @@ def plot_data(data, xaxis='total_steps', value="mean_score", condition="Conditio
     plt.legend(
         handles[1:],
         ['%s'%(key.replace('without', 'w/o').replace('_', '-')) for key in labels[1:]],
-        loc=9 if legend_outside else legend_loc, bbox_to_anchor = (0.5,-0.1) if legend_outside else (1,1) if legend_outside else None, borderpad=legend_borderpad, labelspacing=legend_labelspacing, ncol=len(labels)-1 if legend_outside else 1)
+        loc=9 if legend_outside else legend_loc, bbox_to_anchor = (0.5,-0.1) if legend_outside else (1,1) if legend_outside else None,
+		borderpad=legend_borderpad, labelspacing=legend_labelspacing, ncol=len(labels)-1 if legend_outside else 1, fontsize=18 )
+
 
     xscale = np.max(np.asarray(data[xaxis])) > 5e3
     if xscale:

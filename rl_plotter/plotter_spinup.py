@@ -97,7 +97,8 @@ def main():
 			legend_labelspacing=args.labelspacing,
 			font_scale=args.font_scale)
 	plt.title(args.title)
-	plt.xlabel(args.xlabel)
+
+	plt.xlabel(args.xlabel, fontsize=20)
 	plt.ylabel(args.ylabel)
 	fig = plt.gcf()
 	fig.set_size_inches((args.fig_length, args.fig_width), forward=False)
