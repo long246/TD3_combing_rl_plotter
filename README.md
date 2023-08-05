@@ -1,6 +1,6 @@
 # TD3_combing_rl_plotter-main
 
-A implementation of enchancing [rl_plotter](https://github.com/gxywy/rl-plotter) , a plotter for reinforcement learning(RL)
+A enchanced implementation of [rl_plotter](https://github.com/gxywy/rl-plotter) , a plotter for reinforcement learning (RL).
 
 ### Installation
 Install rl_plotter from PIP
@@ -23,7 +23,7 @@ cd results
 rl_plotter --save  --pdf --avg_group --shaded_std
 ```
 #### Method 2 (Recommended)
-Batch plotting with two files, plot.sh and data_processing, newly added.
+Batch plotting with two files (plot.sh and data_processing) newly added by running:
 ```
 bash plot.sh
 ```
