@@ -16,6 +16,7 @@ For me, this three file is in the path :
 ```
 D:\home\user\Anaconda\Lib\site-packages\rl_plotter
 ```
+![alt repalce](replace.png)
 ### Usage
 #### Method 1
 ```
